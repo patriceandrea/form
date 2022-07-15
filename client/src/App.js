@@ -1,23 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+
+
 
 function App() {
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [description, setDescription] = useState('')
+
+  // will change the state of the form 
+  const handleChangeName = (event) => {
+    setName(event.target.value)
+  }
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value)
+  }
+
+  const handleChangeDescription = (event) => {
+    setDescription(event.target.value);
+  }
+
+
+  const handleSubmit = (event) => {
+    event.defaultPrevented();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Full Name:
+          <input type="text" value={name} onChange={(e) => { handleChangeName(e) }} />
+        </label>
+        <label>
+          Email
+          <input type="email" value={email} onChange={e => { handleChangeEmail(e) }} />
+        </label><br />
+        <label>
+          Why should we hire you?
+          <textarea id="description" type="text" value={description} onChange={(e) => { handleChangeDescription(e) }} />
+        </label>
+      </form>
+      <input type="submit" value="Submit" />
     </div>
   );
 }
