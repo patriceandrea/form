@@ -23,9 +23,17 @@ function App() {
 
 
   const handleSubmit = (event) => {
-    alert("form submitted!");
-    event.defaultPrevented();
+
+    if (!event.target.value) {
+      alert('please write your information!')
+    } else {
+      alert("form submitted!");
+      event.defaultPrevented();
+    }
+
   }
+
+
 
   return (
     <div className='App'>
