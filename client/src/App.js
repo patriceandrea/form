@@ -23,12 +23,13 @@ function App() {
 
 
   const handleSubmit = (event) => {
+    alert("form submitted!");
     event.defaultPrevented();
   }
 
   return (
     <div className='App'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => { handleSubmit(e) }}>
         <label>
           Full Name:
           <input type="text" value={name} onChange={(e) => { handleChangeName(e) }} />
@@ -41,8 +42,8 @@ function App() {
           Why should we hire you?
           <textarea id="description" type="text" value={description} onChange={(e) => { handleChangeDescription(e) }} />
         </label>
+        <input type="submit" value="Submit" />
       </form>
-      <input type="submit" value="Submit" />
     </div>
   );
 }
