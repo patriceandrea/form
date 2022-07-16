@@ -5,7 +5,7 @@ module.exports = (pool) => {
 
   router.post('/submit', (req, res) => {
 
-    let { name, email, description } = req.body[0]
+    let { name, email, description } = req.body
 
     const command = ' INSERT INTO users(name, email, description) VALUES($1, $2, $3) RETURNING *;'
     const values = [name, email, description]

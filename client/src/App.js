@@ -5,64 +5,40 @@ import axios from 'axios';
 
 function App() {
 
-  // const [name, setName] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [description, setDescription] = useState('')
-  const [form, setForm] = React.useState({
-    name: '',
-    email: '',
-    description: ''
-  })
 
+  const url = 'http://localhost:4000/users/submit';
 
-  // will change the state of the form 
-  const handleChange = (event) => {
-    setForm({
-      ...form,
-      [event.target.value]: event.target.value
-    })
-  }
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [description, setDescription] = useState('')
 
+  const handleSubmit = async (event) => {
 
-
-  const handleSubmit = (event) => {
-    event.defaultPrevented();
-    if (!event.target.value) {
-      alert('please write your information!')
-      console.log('yooo'.event.target.value)
-    } else {
-      alert("form submitted!");
-
-      axios.post('http://localhost:4000/users/submit', { form })
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
-          console.log("it works")
-        })
-
-
+    try {
+      const resp = await axios.post(url, { name: name, email: email, description: description })
+      event.preventDefault();
+      console.log(resp.data);
+    } catch (error) {
+      console.log(error);
     }
-
   }
-
-
 
 
 
   return (
     <div className='App'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => { handleSubmit(e) }}>
         <label>
           Full Name:
-          <input type="text" value={form.name} onChange={handleChange} />
+          <input id="name" type="text" placeholder="Write your full name" value={name} onChange={(e) => { setName(e.target.value) }} />
         </label>
         <label>
           Email
-          <input type="email" value={form.email} onChange={handleChange} />
+          <input id="email" type="email" placeholder="patrice@yahoo.ca" value={email} onChange={(e) => { setEmail(e.target.value) }} />
         </label><br />
         <label>
           Why should we hire you?
-          <textarea id="description" type="text" value={form.description} onChange={handleChange} />
+          <textarea id="description" type="text" value={description} onChange={(e) => { setDescription(e.target.value) }} />
         </label>
         <input type="submit" value="Submit" />
       </form>
