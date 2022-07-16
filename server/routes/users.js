@@ -5,7 +5,7 @@ module.exports = (pool) => {
 
   router.post('/submit', (req, res) => {
 
-    let { name, email, description } = req.body
+    let { name, email, description } = req.body[0]
 
     const command = ' INSERT INTO users(name, email, description) VALUES($1, $2, $3) RETURNING *;'
     const values = [name, email, description]
@@ -13,7 +13,7 @@ module.exports = (pool) => {
       res.status(200).json(data.rows);
 
     })
-      .catch((err) => console.log(err));
+      .catch((error) => console.log(error));
 
   })
 
