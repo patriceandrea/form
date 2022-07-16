@@ -1,54 +1,68 @@
 import './App.css';
 import React, { useState } from 'react';
-
+import axios from 'axios';
 
 
 function App() {
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [description, setDescription] = useState('')
+  // const [name, setName] = useState('')
+  // const [email, setEmail] = useState('')
+  // const [description, setDescription] = useState('')
+  const [form, setForm] = React.useState({
+    name: '',
+    email: '',
+    description: ''
+  })
+
 
   // will change the state of the form 
-  const handleChangeName = (event) => {
-    setName(event.target.value)
-  }
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value)
+  const handleChange = (event) => {
+    setForm({
+      ...form,
+      [event.target.value]: event.target.value
+    })
   }
 
-  const handleChangeDescription = (event) => {
-    setDescription(event.target.value);
-  }
 
 
   const handleSubmit = (event) => {
-
+    event.defaultPrevented();
     if (!event.target.value) {
       alert('please write your information!')
+      console.log('yooo'.event.target.value)
     } else {
       alert("form submitted!");
-      event.defaultPrevented();
+
+      axios.post('http://localhost:4000/users/submit', { form })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+          console.log("it works")
+        })
+
+
     }
 
   }
 
 
 
+
+
   return (
     <div className='App'>
-      <form onSubmit={(e) => { handleSubmit(e) }}>
+      <form onSubmit={handleSubmit}>
         <label>
           Full Name:
-          <input type="text" value={name} onChange={(e) => { handleChangeName(e) }} />
+          <input type="text" value={form.name} onChange={handleChange} />
         </label>
         <label>
           Email
-          <input type="email" value={email} onChange={e => { handleChangeEmail(e) }} />
+          <input type="email" value={form.email} onChange={handleChange} />
         </label><br />
         <label>
           Why should we hire you?
-          <textarea id="description" type="text" value={description} onChange={(e) => { handleChangeDescription(e) }} />
+          <textarea id="description" type="text" value={form.description} onChange={handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
